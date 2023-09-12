@@ -1,0 +1,19 @@
+1 
+104664 is how many stock months there are in the crsp
+9146 is how many stock quarters we have in announcements
+
+2 
+there are 2509 unique permnos
+9
+6838 is how many stock quarters there are
+there are 1853 unique permnos
+10 the total amount of days is 6838 Thursday (the highest) accounts for 34.47% of all announcements
+
+11
+The mean of this fraction across permnos is 0.7800413743479043.
+12
+For the below median group, the mean fraction is approximately 77.8%.
+For the above median group, the mean fraction is approximately 75.0%.
+15
+2227 is how many stock quarters there are
+there are 591 unique permnos
