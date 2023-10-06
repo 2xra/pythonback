@@ -118,15 +118,48 @@ def IHateItHere(eststartdate,estenddate,regstartdate,regenddate,period):
             first = dayfilter['NextMRet'].iloc[0]
             X.append(dayfilter['Wreturn'].sum())
             y.append(first)
+        returnlist = [m+1 for m in X]
+        portfolioret = np.prod(returnlist)-1
 
         holdReturn = statistics.mean(X)
         model = sm.OLS(y, X, missing='drop').fit()
-        beta.append((period,count,model.params,holdReturn))
+        beta.append((period,count,model.params,holdReturn,portfolioret))
         count += 1
     return(beta)
 
-datedict = {'one':('1973-01-01','1975-12-31','1976-01-01','1980-12-31',1)}
-allthebetas = []
-allthebetas = allthebetas+IHateItHere('1973-01-01','1975-12-31','1976-01-01','1980-12-31',1)
+startyear = 1973
 
+datelist = []
+
+yearcount = 0
+while yearcount < 8:
+    startcalyear = startyear + yearcount*5
+    endcalyear = startyear + 2 +yearcount*5
+    startregyear = startyear + 3+ yearcount*5
+    endregyear = startyear + 7 + yearcount*5
+    yearcount += 1
+    startcalyearstring = str(startcalyear) 
+    endcalyearstring =  str(endcalyear)
+    startregyearstring = str(startregyear)
+    endregyearstring =  str(endregyear)
+    datelist.append((startcalyearstring+'-01-01',endcalyearstring+'-12-31',startregyearstring+'-01-01',endregyearstring+'-12-31',yearcount))
+
+allthebetas = []
+whilecounter = 0
+while whilecounter < 8:
+    allthebetas = allthebetas+IHateItHere(*datelist[whilecounter])
+    print(len(allthebetas))
+    print(allthebetas)
+    whilecounter += 1
+
+
+print(len(allthebetas))
 print(allthebetas)
+fixedtuples = [(a,b,c[0],d,e) for (a,b,c,d,e) in allthebetas]
+
+print(fixedtuples)
+bigdf = pd.DataFrame(fixedtuples, columns=['period','decile','beta','arithmeanret','BAHR'])
+
+print(bigdf.head())
+
+bigdf.to_csv('yeah.csv')
